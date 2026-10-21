@@ -1,0 +1,53 @@
+{
+    "name": "TimelessDarkMode",
+    "version": "1.0.10",
+    "author": [
+        "OpenAI"
+    ],
+    "url": "https://www.mediawiki.org/wiki/Skin:Timeless",
+    "descriptionmsg": "timelessdarkmode-desc",
+    "license-name": "MIT",
+    "type": "other",
+    "requires": {
+        "MediaWiki": ">= 1.43.0"
+    },
+    "MessagesDirs": {
+        "TimelessDarkMode": [
+            "i18n"
+        ]
+    },
+    "AutoloadNamespaces": {
+        "MediaWiki\\Extension\\TimelessDarkMode\\": "includes/"
+    },
+    "HookHandlers": {
+        "main": {
+            "class": "MediaWiki\\Extension\\TimelessDarkMode\\Hooks"
+        }
+    },
+    "Hooks": {
+        "GetPreferences": "main",
+        "BeforePageDisplay": "main",
+        "OutputPageBodyAttributes": "main"
+    },
+    "DefaultUserOptions": {
+        "timelessdarkmode-mode": "light"
+    },
+    "ResourceModules": {
+        "ext.timelessDarkMode.styles": {
+            "styles": [
+                "resources/dark.less"
+            ]
+        }
+    },
+    "ResourceFileModulePaths": {
+        "localBasePath": "",
+        "remoteExtPath": "TimelessDarkMode"
+    },
+    "manifest_version": 2,
+    "config": {
+        "TimelessDarkModeLogo": {
+            "value": null,
+            "description": "Optional dark-mode logo URL, e.g. /images/a/ab/ReformedWiki-dark.svg; leave null to recolor the current monochrome Timeless logo."
+        }
+    }
+}

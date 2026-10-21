@@ -1,0 +1,1540 @@
+/**
+ * TimelessDarkMode — MediaWiki 1.43 / Timeless dark palette.
+ *
+ * Editing palette values below is the intended way to customize the theme.
+ * No Timeless source files are changed. Never invert photos or content images.
+ * The LESS mixin is included for forced dark and system-preference dark, so
+ * only one set of styling rules needs maintenance.
+ */
+
+@td-bg: #181b20;
+@td-gutter: #22262c;
+@td-surface: #252a31;
+@td-raised: #30363f;
+@td-raised-hover: #39434e;
+@td-text: #e6eaf0;
+@td-muted: #b4becb;
+@td-border: #48525e;
+@td-link: #91c5ff;
+@td-link-hover: #bedcff;
+@td-visited: #c3a7f4;
+@td-redlink: #ff9999;
+@td-accent: #75aef0;
+@td-success: #91d2a1;
+@td-input: #1f242a;
+@td-alert: #433524;
+@td-sidebar: #111214; // Near-black navigation panels (left/right)
+@td-sidebar-hover: #22272d;
+
+.timelessdarkmode-colors() {
+    color-scheme: dark;
+    color: @td-text;
+    background: @td-bg;
+
+    /* Codex color tokens inherited by many core controls. */
+    --color-base: #e6eaf0;
+    --color-subtle: #b4becb;
+    --color-emphasized: #ffffff;
+    --color-progressive: #91c5ff;
+    --color-visited: #c3a7f4;
+    --color-destructive: #ff9999;
+    --background-color-base: #252a31;
+    --background-color-interactive: #30363f;
+    --background-color-progressive-subtle: #263a52;
+    --background-color-neutral-subtle: #30363f;
+    --background-color-neutral: #39434e;
+    --background-color-interactive-subtle: #30363f;
+    --border-color-base: #48525e;
+    --border-color-subtle: #48525e;
+    --border-color-interactive: #48525e;
+
+    /* Site chrome, content gutter, article surface and logo text. */
+    #mw-content-container {
+        background-color: @td-gutter;
+        background-image: none;
+        border-bottom-color: @td-accent;
+    }
+    #mw-content {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #mw-header-container,
+    #mw-header,
+    #mw-header-hack,
+    #mw-site-navigation,
+    #mw-related-navigation,
+    #mw-page-header-links,
+    .mw-header-container,
+    .mw-header,
+    .sidebar-chunk,
+    .dropdown-content {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #p-logo-text a,
+    .mw-page-title-main,
+    .mw-body h1,
+    .mw-body h2,
+    .mw-body h3,
+    .mw-body h4,
+    .mw-body h5,
+    .mw-body h6,
+    .mw-heading {
+        color: @td-text;
+    }
+    .mw-body h1,
+    .mw-body h2,
+    .mw-body .mw-heading1,
+    .mw-body .mw-heading2,
+    .mw-body hr,
+    .mw-body .toctitle {
+        border-color: @td-border;
+    }
+    #contentSub,
+    #siteSub,
+    .tocnumber,
+    .mw-footer-info,
+    .mw-body .mw-indicator,
+    .mw-body .mw-parser-output .reference {
+        color: @td-muted;
+    }
+
+    /*
+     * Beta 14: Site logo. Timeless 1.43 renders the usual logo as
+     * <a class="mw-wiki-logo timeless-logo"><img ...></a>, not solely as
+     * a CSS background. Preserve the original image size, its transparency,
+     * and the click target. The monochrome white filter is suitable for
+     * ReformedWiki's black transparent emblem.
+     */
+    #p-logo a.mw-wiki-logo.timeless-logo > img,
+    #p-logo a.mw-wiki-logo.fallback {
+        filter: brightness( 0 ) invert( 1 );
+    }
+
+    /*
+     * Optional administrator-supplied dark artwork. This class is added
+     * server-side only when $wgTimelessDarkModeLogo has a valid URL.
+     * The original <img> continues to reserve its size (and remains in the
+     * accessible logo link), while a CSS pseudo-element paints the artwork.
+     * No JavaScript and no changes to the Timeless skin are required.
+     */
+    &.timelessdarkmode-logo-custom {
+        #p-logo a.mw-wiki-logo.timeless-logo {
+            position: relative;
+        }
+        #p-logo a.mw-wiki-logo.timeless-logo > img {
+            opacity: 0;
+            filter: none;
+        }
+        #p-logo a.mw-wiki-logo.timeless-logo::after {
+            content: '';
+            position: absolute;
+            top: 0.75em;
+            right: 0;
+            bottom: 0.5em;
+            left: 0;
+            background-image: var( --timelessdarkmode-logo-image );
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            pointer-events: none;
+        }
+        /* The background-image fallback logo has no <img> child. */
+        #p-logo a.mw-wiki-logo.fallback {
+            filter: none;
+            background-image: var( --timelessdarkmode-logo-image );
+            background-size: contain;
+        }
+    }
+
+    /* Footer intentionally remains slightly darker. */
+    .mw-footer-container {
+        background-color: @td-bg;
+        color: @td-muted;
+        border-top-color: @td-border;
+    }
+    .mw-footer-container a,
+    .mw-footer-container a:visited {
+        color: @td-link;
+    }
+
+    /* Navigation, tool tabs and dropdown links. */
+    .mw-portlet,
+    .mw-portlet h3,
+    .mw-portlet .dropdown-toggle,
+    .mw-portlet .dropdown-header,
+    .mw-portlet .dropdown-content,
+    .tools-inline,
+    .tools-inline li {
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .tools-inline li.selected {
+        border-bottom-color: @td-accent;
+    }
+    .tools-inline li.selected a {
+        color: @td-text;
+    }
+    .dropdown-content,
+    .mw-portlet .dropdown-content {
+        background-color: @td-raised;
+        box-shadow: 0 4px 14px rgba( 0, 0, 0, 0.35 );
+    }
+    .dropdown-content a:hover,
+    .mw-portlet a:hover {
+        background-color: @td-raised-hover;
+    }
+
+    /*
+     * Sidebars (Timeless 1.43): these are SIDEBAR-CHUNK panels within
+     * #mw-site-navigation and #mw-related-navigation. An ID-qualified
+     * selector is important: the skin's own rules use these IDs, so
+     * the old generic .sidebar-chunk override could lose specificity.
+     * Keep the navigation panels black, headings white and links blue.
+     */
+    #mw-site-navigation .sidebar-chunk,
+    #mw-related-navigation .sidebar-chunk,
+    #mw-site-navigation .sidebar-inner,
+    #mw-related-navigation .sidebar-inner {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    /* Small-screen Timeless renders flyout navigation via .sidebar-inner. */
+    #mw-site-navigation .sidebar-chunk .sidebar-inner,
+    #mw-related-navigation .sidebar-chunk .sidebar-inner {
+        background-color: @td-sidebar;
+        color: @td-text;
+    }
+    #mw-site-navigation .sidebar-chunk h2,
+    #mw-related-navigation .sidebar-chunk h2,
+    #mw-site-navigation .sidebar-chunk h3,
+    #mw-related-navigation .sidebar-chunk h3,
+    #mw-site-navigation .sidebar-chunk .mw-portlet-label,
+    #mw-related-navigation .sidebar-chunk .mw-portlet-label,
+    #mw-site-navigation .sidebar-chunk .dropdown-header,
+    #mw-related-navigation .sidebar-chunk .dropdown-header {
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #mw-site-navigation .sidebar-chunk a,
+    #mw-site-navigation .sidebar-chunk a:link,
+    #mw-site-navigation .sidebar-chunk a:visited,
+    #mw-related-navigation .sidebar-chunk a,
+    #mw-related-navigation .sidebar-chunk a:link,
+    #mw-related-navigation .sidebar-chunk a:visited {
+        color: @td-link;
+    }
+    #mw-site-navigation .sidebar-chunk a:hover,
+    #mw-site-navigation .sidebar-chunk a:focus,
+    #mw-related-navigation .sidebar-chunk a:hover,
+    #mw-related-navigation .sidebar-chunk a:focus {
+        color: @td-link-hover;
+        background-color: @td-sidebar-hover;
+    }
+    /* Red links remain visually distinct from blue navigation links. */
+    #mw-site-navigation .sidebar-chunk a.new,
+    #mw-site-navigation .sidebar-chunk a.new:visited,
+    #mw-related-navigation .sidebar-chunk a.new,
+    #mw-related-navigation .sidebar-chunk a.new:visited {
+        color: @td-redlink;
+    }
+    /* Desktop user menu and small-screen navigation should also stay dark. */
+    #personal .dropdown,
+    #p-variants-desktop .dropdown,
+    #mw-site-navigation .dropdown,
+    #mw-related-navigation .dropdown {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+
+    /*
+     * Special:Preferences uses OOUI's framed tab navigation and a sticky
+     * Save bar. Their light backgrounds are independent of Timeless's
+     * article and sidebar surfaces; scope changes to Preferences only.
+     */
+    #mw-prefs-container .oo-ui-tabSelectWidget-framed,
+    .mw-prefs-tabs .oo-ui-tabSelectWidget-framed {
+        background-color: @td-raised;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #mw-prefs-container .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget,
+    .mw-prefs-tabs .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget {
+        background-color: transparent;
+        color: @td-muted;
+        border-color: transparent;
+    }
+    #mw-prefs-container .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget .oo-ui-labelElement-label,
+    .mw-prefs-tabs .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget .oo-ui-labelElement-label {
+        color: inherit;
+    }
+    #mw-prefs-container .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget.oo-ui-optionWidget-selected,
+    .mw-prefs-tabs .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget.oo-ui-optionWidget-selected {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #mw-prefs-container .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget.oo-ui-widget-enabled:hover,
+    .mw-prefs-tabs .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget.oo-ui-widget-enabled:hover {
+        background-color: @td-raised-hover;
+        color: @td-text;
+    }
+    #mw-prefs-container .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget.oo-ui-optionWidget-selected:hover,
+    .mw-prefs-tabs .oo-ui-tabSelectWidget-framed .oo-ui-tabOptionWidget.oo-ui-optionWidget-selected:hover {
+        background-color: @td-surface;
+        color: @td-text;
+    }
+    #mw-prefs-container .mw-prefs-tabs-wrapper,
+    #mw-prefs-container .oo-ui-tabPanelLayout,
+    #mw-prefs-container .oo-ui-panelLayout-framed,
+    #mw-prefs-container .mw-prefs-content-page {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #preferences .mw-htmlform-submit-buttons,
+    #preferences .mw-prefs-buttons,
+    #mw-prefs-container .mw-prefs-buttons {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #preferences .mw-htmlform-submit-buttons .oo-ui-buttonElement-framed.oo-ui-widget-disabled > .oo-ui-buttonElement-button {
+        background-color: @td-raised;
+        color: @td-muted;
+        border-color: @td-border;
+    }
+
+    /*
+     * 1.0.7: Special:Preferences > Notifications — Echo checkbox matrix.
+     *
+     * MediaWiki 1.43 CheckMatrixWidget renders a table with both
+     * .mw-htmlform-matrix and .mw-widget-checkMatrixWidget-matrix. The
+     * legacy OOUI HTMLForm CSS paints alternating td elements light gray,
+     * independently of the surrounding Preferences panel. Override those
+     * cell backgrounds, not the layout or checkbox state, to maintain
+     * good contrast in Timeless dark mode.
+     */
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix {
+        color: @td-text;
+        background-color: @td-surface;
+        border-color: @td-border;
+    }
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix thead th {
+        color: @td-muted;
+        background-color: @td-surface;
+        border-color: @td-border;
+    }
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix tbody tr:nth-child(odd) td {
+        color: @td-text;
+        background-color: @td-surface;
+        border-color: @td-border;
+    }
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix tbody tr:nth-child(even) td {
+        color: @td-text;
+        background-color: @td-raised;
+        border-color: @td-border;
+    }
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix tbody tr:hover td {
+        background-color: @td-raised-hover;
+    }
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix .oo-ui-fieldLayout .oo-ui-labelElement-label {
+        color: @td-text;
+    }
+    /* Leave enabled checkboxes blue; disabled checkboxes stay noninteractive. */
+    table.mw-htmlform-matrix.mw-widget-checkMatrixWidget-matrix .oo-ui-widget-disabled .oo-ui-labelElement-label {
+        color: @td-muted;
+    }
+
+    /* Content and standard MediaWiki links. */
+    a,
+    a:link,
+    .mw-parser-output a.external,
+    .mw-parser-output a.extiw {
+        color: @td-link;
+    }
+    a:hover,
+    a:focus,
+    .mw-parser-output a.external:hover {
+        color: @td-link-hover;
+    }
+    a:visited,
+    .mw-parser-output a.external:visited,
+    .mw-parser-output a.extiw:visited {
+        color: @td-visited;
+    }
+    a.new,
+    .new a,
+    a.new:visited,
+    .new a:visited {
+        color: @td-redlink;
+    }
+    a.mw-selflink,
+    a.mw-selflink:visited {
+        color: @td-text;
+    }
+
+    /* Search (Timeless search input and suggestions) */
+    #simpleSearch,
+    #searchInput,
+    #searchform,
+    .suggestions,
+    .suggestions-special,
+    .suggestions-results {
+        color: @td-text;
+        background-color: @td-input;
+        border-color: @td-border;
+    }
+    #searchInput::placeholder,
+    input::placeholder,
+    textarea::placeholder {
+        color: @td-muted;
+        opacity: 1;
+    }
+    .suggestions-result,
+    .suggestions-special .special-query {
+        color: @td-text;
+    }
+    .suggestions-result-current {
+        color: #111820;
+        background-color: @td-link;
+    }
+
+    /*
+     * Special:RecentChanges, Special:Watchlist and RelatedChanges filters.
+     * MediaWiki REL1_43's rcfilters widget supplies its *own* light
+     * `background-color` to .oo-ui-tagMultiselectWidget-handle.  The white
+     * active-filters region is this parent handle, NOT just its nested
+     * `-wrapper-top-queryName` div.  Match the MediaWiki selector plus
+     * the ancestor body mode class (provided by the LESS mixin) so the
+     * override beats the MediaWiki/OOUI rule without !important.
+     *
+     * Don't change layout, filtering JS, visibility, or icon positioning.
+     */
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget.oo-ui-widget-enabled .oo-ui-tagMultiselectWidget-handle,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget .oo-ui-tagMultiselectWidget-handle {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    /* The widget's heading, saved-query text and Hide link use separate colors. */
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-top,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-filters {
+        background-color: transparent;
+        color: @td-text;
+    }
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-top-title,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-top-queryName,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-top-hideshow,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-content-savedQueryTitle {
+        color: @td-text;
+    }
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-content-title,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-emptyFilters {
+        color: @td-muted;
+    }
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-top-hideshow a,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget-wrapper-top-hideshow .oo-ui-buttonElement-button {
+        color: @td-link;
+    }
+    /* Filter/search input and tag chips remain dark inside the handle. */
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget .oo-ui-tagMultiselectWidget-input input {
+        background-color: @td-input;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget .oo-ui-tagItemWidget {
+        background-color: @td-raised;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    /* Toolbar icons are typically black SVG masks in legacy OOUI. */
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget .oo-ui-buttonElement-frameless .oo-ui-iconElement-icon,
+    .mw-rcfilters-container .mw-rcfilters-ui-filterTagMultiselectWidget .oo-ui-buttonElement-frameless .oo-ui-indicatorElement-indicator {
+        filter: brightness( 0 ) invert( 1 );
+    }
+
+    /*
+     * Extension:SubpageNavigation, article-header subpage list.
+     * Its resources/style.css sets .subpageNavigation's background to
+     * #f8f9fa and its bottom divider to #a2a9b1 independently of
+     * Timeless. Keep the table/tree layout and expand/collapse behavior.
+     * The surrounding body dark-mode selector makes this more specific
+     * than the extension's own rule without changing Light mode.
+     */
+    .subpageNavigation {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-bottom-color: @td-border;
+    }
+    .subpageNavigation .subpageNavigationExplanation,
+    .subpageNavigation .subpage-navigation-list,
+    .subpageNavigation .subpageNavigation-tree,
+    .subpageNavigation .mw-editfooter-toggler {
+        color: @td-text;
+    }
+    .subpageNavigation a,
+    .subpageNavigation a:link,
+    .subpageNavigation a:visited {
+        color: @td-link;
+    }
+    .subpageNavigation a:hover,
+    .subpageNavigation a:focus-visible {
+        color: @td-link-hover;
+    }
+    .subpageNavigation a.new,
+    .subpageNavigation a.new:visited {
+        color: @td-redlink;
+    }
+
+    /* Tables, table of contents, notices and category boxes. */
+    .toc,
+    .toccolours,
+    ul#filetoc,
+    .mw-warning,
+    .catlinks,
+    .thumbinner,
+    .gallerybox .thumb,
+    .mw_metadata,
+    .wikitable,
+    .mw-datatable,
+    .mw-search-profile-tabs,
+    #mw-searchoptions,
+    .mw-changeslist-legend {
+        background-color: @td-raised;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .wikitable th,
+    .mw-datatable th,
+    .mw_metadata th,
+    .wikitable > * > tr > th,
+    .mw-datatable > * > tr > th,
+    .mw_metadata > * > tr > th {
+        color: @td-text;
+        background-color: @td-raised-hover;
+        border-color: @td-border;
+    }
+    .wikitable td,
+    .wikitable > * > tr > td,
+    .mw-datatable td,
+    .mw_metadata td,
+    .mw-datatable > * > tr > td {
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .wikitable tr:nth-child( even ) td {
+        background-color: rgba( 255, 255, 255, 0.025 );
+    }
+    /*
+     * 1.0.4: Special:Tags and other core .mw-datatable tables.
+     * MediaWiki's legacy shared.css paints white (#fff) directly on each
+     * data <td>; setting a dark background only on the table itself cannot
+     * win because the cell's own background is painted on top.  Use actual
+     * cell backgrounds with slightly different alternating rows.  Match
+     * the real table structure (including core's tbody) and preserve its
+     * sort/link behavior.  Existing mixin scopes this to Timeless dark mode.
+     */
+    table.mw-datatable > tbody > tr > td,
+    table.mw-datatable > tr > td {
+        color: @td-text;
+        background-color: @td-surface;
+        border-color: @td-border;
+    }
+    table.mw-datatable > tbody > tr:nth-child( even ) > td,
+    table.mw-datatable > tr:nth-child( even ) > td {
+        background-color: @td-raised;
+    }
+
+    table.mw-datatable > tbody > tr:hover > td,
+    table.mw-datatable > tr:hover > td {
+        background-color: @td-raised-hover;
+    }
+
+    /*
+     * 1.0.10: Page history / revision list readability.
+     * MediaWiki highlights selected revision rows with a light background by
+     * default. In dark mode, keep the revision list readable and make selected
+     * rows visibly distinct without washing out the text.
+     */
+    #pagehistory li,
+    #pagehistory ul {
+        color: @td-text;
+    }
+    #pagehistory li.selected,
+    #pagehistory li.selected-before,
+    #pagehistory li.selected-after,
+    #pagehistory li:target {
+        background-color: @td-raised;
+        color: @td-text;
+        outline: 1px dashed @td-border;
+    }
+    #pagehistory li.selected a,
+    #pagehistory li.selected-before a,
+    #pagehistory li.selected-after a,
+    #pagehistory li:target a,
+    #pagehistory li.selected a:visited,
+    #pagehistory li.selected-before a:visited,
+    #pagehistory li.selected-after a:visited,
+    #pagehistory li:target a:visited {
+        color: @td-link;
+    }
+    #pagehistory li.selected .history-size,
+    #pagehistory li.selected-before .history-size,
+    #pagehistory li.selected-after .history-size,
+    #pagehistory li.selected .comment,
+    #pagehistory li.selected-before .comment,
+    #pagehistory li.selected-after .comment,
+    #pagehistory li.selected .mw-plusminus-null,
+    #pagehistory li.selected-before .mw-plusminus-null,
+    #pagehistory li.selected-after .mw-plusminus-null,
+    #pagehistory li.selected .autocomment,
+    #pagehistory li.selected-before .autocomment,
+    #pagehistory li.selected-after .autocomment,
+    #pagehistory li:target .history-size,
+    #pagehistory li:target .comment,
+    #pagehistory li:target .mw-plusminus-null,
+    #pagehistory li:target .autocomment {
+        color: @td-text;
+    }
+    #pagehistory li.selected input,
+    #pagehistory li.selected-before input,
+    #pagehistory li.selected-after input,
+    #pagehistory li:target input {
+        accent-color: @td-accent;
+    }
+    .thumbimage,
+    .thumbborder,
+    img.thumbimage {
+        border-color: @td-border;
+    }
+    /*
+     * Standard [[File:...|thumb]] / [[File:...|frame]] article figures.
+     * Timeless / mediawiki.skinning sets a light #f8f9fa background
+     * directly on the <figure typeof="mw:File/Thumb"> container, and
+     * some caption rules apply their own colors. .mw-default-size is
+     * only a sizing class; matching the figure's typeof attribute
+     * handles default and explicit widths, left/right/center alignment,
+     * and both thumbnail and framed images. Do not invert/recolor the
+     * actual <img> or other media element.
+     */
+    .mw-parser-output figure[typeof~='mw:File/Thumb'],
+    .mw-parser-output figure[typeof~='mw:File/Frame'] {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+        box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.35 );
+    }
+    .mw-parser-output figure[typeof~='mw:File/Thumb'] > figcaption,
+    .mw-parser-output figure[typeof~='mw:File/Frame'] > figcaption {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-parser-output figure[typeof~='mw:File/Thumb'] > figcaption a,
+    .mw-parser-output figure[typeof~='mw:File/Frame'] > figcaption a {
+        color: @td-link;
+    }
+    .mw-parser-output figure[typeof~='mw:File/Thumb'] > figcaption a:visited,
+    .mw-parser-output figure[typeof~='mw:File/Frame'] > figcaption a:visited {
+        color: @td-visited;
+    }
+    .mw-parser-output figure[typeof~='mw:File/Thumb'] > figcaption a:hover,
+    .mw-parser-output figure[typeof~='mw:File/Frame'] > figcaption a:hover {
+        color: @td-link-hover;
+    }
+    /* Also support older legacy thumbnail markup (.thumbinner). */
+    .mw-parser-output .thumb .thumbinner {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-parser-output .thumb .thumbcaption {
+        background-color: transparent;
+        color: @td-text;
+    }
+
+    /* Do not modify image pixels, thumbnails, book covers, SVGs or logos. */
+
+    /*
+     * TemplateStyles infobox palette (ReformedWiki templates).
+     * Example: Template:Infobox_person/styles.css defines --ib-bg,
+     * --ib-border and --ib-text directly on .infobox_person.
+     * Variables declared only on body would NOT override that local
+     * declaration; target the infobox element itself.
+     *
+     * TemplateStyles normally adds .mw-parser-output to its selectors
+     * and is loaded later in the page. The additional body theme classes
+     * give these overrides enough specificity without !important.
+     *
+     * Match .infobox, .infobox_person, .infobox_clergy and other classes
+     * beginning infobox_; the second attribute selector covers elements
+     * where the infobox_ class is not first in the class attribute.
+     */
+    .mw-parser-output .infobox,
+    .mw-parser-output [class^="infobox_"],
+    .mw-parser-output [class*=" infobox_"] {
+        --ib-bg: #111214;
+        --ib-border: #48525e;
+        --ib-text: #e6eaf0;
+    }
+
+    /*
+     * Generic .infobox tables sometimes do not reference --ib- tokens.
+     * Leave template-specific title and status colors untouched, and
+     * scope these fallback surfaces to generic .infobox elements only.
+     */
+    .mw-parser-output .infobox {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+
+    /*
+     * Standard wikitext editor footer (edit summary, minor edit/watch page,
+     * copyright notice and save/preview controls).
+     * Timeless REL1_43 sets `div.editOptions { background: @base80; }`,
+     * separately from the content surface. Override the full background
+     * shorthand here; don't alter the surrounding form layout or spacing.
+     * Works for the user-selected Dark theme and system Automatic mode.
+     */
+    #editform .editOptions,
+    .mw-editform .editOptions,
+    div.editOptions {
+        background: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    /* OOUI labels and edit notices can declare their own text colors. */
+    .editOptions label,
+    .editOptions .oo-ui-labelElement-label,
+    .editOptions .oo-ui-fieldLayout-header {
+        color: @td-text;
+    }
+    .editOptions .oo-ui-fieldLayout-help {
+        color: @td-muted;
+    }
+    .editOptions a,
+    .editOptions a:link,
+    .editOptions a:visited {
+        color: @td-link;
+    }
+    .editOptions a:hover,
+    .editOptions a:focus-visible {
+        color: @td-link-hover;
+    }
+    /* Native checkbox controls; OOUI-rendered inputs retain their icons. */
+    .editOptions input[type='checkbox'] {
+        accent-color: #36c;
+    }
+
+    /*
+     * Copyright/licensing notice on the edit page (#editpage-copywarn).
+     * It can appear inside .editOptions or be rendered in a separate block,
+     * so do not require .editOptions as an ancestor.  Keep any original
+     * spacing and formatting, but remove its light background/text pairing.
+     */
+    #editpage-copywarn {
+        background-color: @td-sidebar;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    #editpage-copywarn a:not(.new),
+    #editpage-copywarn a:visited:not(.new) {
+        color: @td-link;
+    }
+    #editpage-copywarn a:hover:not(.new),
+    #editpage-copywarn a:focus-visible:not(.new) {
+        color: @td-link-hover;
+    }
+
+    /* Edit and Special pages: native controls and code blocks. */
+    input:not( [type='checkbox'] ):not( [type='radio'] ):not( [type='image'] ),
+    select,
+    textarea,
+    button,
+    .mw-inputbox-input,
+    .mw-ui-input {
+        color: @td-text;
+        background-color: @td-input;
+        border-color: @td-border;
+    }
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+        outline: 2px solid @td-accent;
+        outline-offset: 2px;
+    }
+    fieldset,
+    .mw-htmlform-field-HTMLCheckField,
+    .mw-htmlform-field-HTMLTextField,
+    .mw-prefs-tabs,
+    .mw-prefs-buttons {
+        color: @td-text;
+        border-color: @td-border;
+    }
+    pre,
+    code,
+    tt,
+    kbd,
+    samp,
+    .mw-code,
+    .mw-highlight,
+    .mw-highlight pre,
+    .mw-diff-inline-added,
+    .mw-diff-inline-deleted,
+    .diff-context {
+        color: @td-text;
+        background-color: @td-input;
+        border-color: @td-border;
+    }
+    /* Preserve normal diff/add/remove highlighting where possible. */
+    .mw-warning,
+    .usermessage {
+        background-color: @td-alert;
+        color: #f3e5bb;
+        border-color: #9b7540;
+    }
+    .mw-message-box-success,
+    .successbox {
+        background-color: #213b2c;
+        color: #d0f0d8;
+        border-color: @td-success;
+    }
+    .mw-message-box-error,
+    .errorbox {
+        background-color: #452629;
+        color: #fbd6d6;
+        border-color: #b96b72;
+    }
+
+    /*
+     * 1.0.3: DiscussionTools linked-comment highlights (e.g. AtMentions).
+     *
+     * DiscussionTools 1.43 draws a separate absolutely positioned overlay
+     * over the target comment. Its normal light-mode pale blue plus `darken`
+     * blending nearly erases light text on Timeless's dark article surface.
+     * Mirror DiscussionTools's own native-night blending mode and supply a
+     * deliberately muted, opaque blue (or green) overlay. DO NOT alter the
+     * animation classes, opacity, geometry, z-index or pointer-events:
+     * those are owned by DiscussionTools.
+     */
+    .ext-discussiontools-init-highlight {
+        mix-blend-mode: lighten;
+    }
+    .ext-discussiontools-init-highlight.ext-discussiontools-init-targetcomment {
+        background-color: #344c69;
+    }
+
+    .ext-discussiontools-init-highlight.ext-discussiontools-init-publishedcomment {
+        background-color: #2e513e;
+    }
+
+    /*
+     * 1.0.9: DiscussionTools reply preview panel.
+     * The reply widget editor is already dark, but the rendered preview area
+     * keeps a light background and light-on-light text. Darken both the
+     * preview frame and the rendered preview output without altering the rest
+     * of the reply widget workflow.
+     */
+    .ext-discussiontools-ui-replyWidget-preview,
+    .ext-discussiontools-ui-replyWidget .ext-discussiontools-ui-replyWidget-preview,
+    .ext-discussiontools-ui-replyWidget-preview .mw-content-ltr,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output {
+        background-color: @td-raised;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .ext-discussiontools-ui-replyWidget-preview {
+        border-top: 1px solid @td-border;
+    }
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output p,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output li,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output dd,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output dt,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output blockquote,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output span,
+    .ext-discussiontools-ui-replyWidget-preview .mw-parser-output div {
+        color: inherit;
+    }
+    .ext-discussiontools-ui-replyWidget-preview a,
+    .ext-discussiontools-ui-replyWidget-preview a:visited {
+        color: @td-link;
+    }
+    .ext-discussiontools-ui-replyWidget-preview .new,
+    .ext-discussiontools-ui-replyWidget-preview a.new,
+    .ext-discussiontools-ui-replyWidget-preview a.new:visited {
+        color: @td-redlink;
+    }
+    .ext-discussiontools-ui-replyWidget .oo-ui-labelElement-label,
+    .ext-discussiontools-ui-replyWidget .ext-discussiontools-ui-replyWidget-previewLabel {
+        color: @td-text;
+    }
+
+    /*
+     * 1.0.8: MediaWiki core floating notification banners (post-edit,
+     * create/delete success, warnings, etc.). These are separate from Echo.
+     */
+    .mw-notification-area,
+    .mw-notification-area-layout {
+        color: @td-text;
+    }
+    .mw-notification {
+        color: @td-text;
+        background-color: @td-surface;
+        border-color: @td-border;
+        box-shadow: 0 4px 14px rgba( 0, 0, 0, 0.35 );
+    }
+    .mw-notification.mw-notification-type-notice,
+    .mw-notification.mw-notification-type-autohide {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-notification.mw-notification-type-warn {
+        background-color: @td-alert;
+        color: #f3e5bb;
+        border-color: #9b7540;
+    }
+    .mw-notification.mw-notification-type-error {
+        background-color: #452629;
+        color: #fbd6d6;
+        border-color: #b96b72;
+    }
+    .mw-notification-content,
+    .mw-notification-content p,
+    .mw-notification-content .mw-parser-output,
+    .mw-notification-content .mw-parser-output p,
+    .mw-notification-content .mw-ui-icon,
+    .mw-notification-title {
+        color: inherit;
+    }
+    .mw-notification a,
+    .mw-notification a:visited {
+        color: @td-link;
+    }
+    .mw-notification-close,
+    .mw-notification .mw-notification-close,
+    .mw-notification .oo-ui-buttonElement-button {
+        color: @td-text;
+    }
+    .mw-notification-close:hover,
+    .mw-notification .oo-ui-buttonElement-button:hover {
+        background-color: @td-raised-hover;
+    }
+    /* MediaWiki's OOUI dialogs and widgets often use their own surfaces. */
+    .oo-ui-window-frame,
+    .oo-ui-popupWidget-popup,
+    .oo-ui-menuSelectWidget,
+    .oo-ui-panelLayout-framed,
+    .oo-ui-fieldsetLayout,
+    .oo-ui-textInputWidget input,
+    .oo-ui-textInputWidget textarea,
+    .oo-ui-dropdownWidget-handle,
+    .oo-ui-comboBoxInputWidget-field,
+    .oo-ui-tagMultiselectWidget-handle {
+        color: @td-text;
+        background-color: @td-surface;
+        border-color: @td-border;
+    }
+    .oo-ui-labelElement-label,
+    .oo-ui-inputWidget-input,
+    .oo-ui-menuOptionWidget-label {
+        color: @td-text;
+    }
+    .oo-ui-optionWidget-selected,
+    .oo-ui-menuOptionWidget-highlighted {
+        background-color: @td-raised-hover;
+    }
+
+
+    /*
+     * 1.0.2: Echo (Alerts / Notices) dropdown readability.
+     *
+     * Generic OOUI popup darkening is not enough because Echo paints its own
+     * light surfaces for the popup chrome, notification rows and footer tools.
+     * Keep counters and icons intact, but make the popup match the rest of the
+     * Timeless dark palette.
+     */
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-popup,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-anchored,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-clippableElement-clippable,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-body,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationsListWidget,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-head,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-footer,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-active {
+        background-color: @td-raised;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget {
+        border-top-color: @td-border;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget:hover,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-active:hover,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-unread,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-unseen {
+        background-color: @td-raised-hover;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-title,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-message,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-primary,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-secondary,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-secondary-links,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-details,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-labelElement-label,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-buttonElement-button {
+        color: @td-text;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup a,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup a:visited,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content a,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content a:visited {
+        color: @td-link;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-secondary,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-content-details,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-count,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .mw-echo-ui-notificationItemWidget-timestamp {
+        color: @td-muted;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-footer .oo-ui-buttonElement-button,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-head .oo-ui-buttonElement-button {
+        background-color: transparent;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-footer .oo-ui-buttonElement-button:hover,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-head .oo-ui-buttonElement-button:hover {
+        background-color: @td-raised-hover;
+    }
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-anchor,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-anchor::before,
+    .mw-echo-ui-notificationBadgeButtonPopupWidget-popup .oo-ui-popupWidget-anchor::after {
+        border-bottom-color: @td-raised;
+        border-top-color: @td-raised;
+    }
+    /*
+     * 1.0.5: Full Special:Notifications inbox (Echo 1.43).
+     *
+     * The inbox toolbar and rows are separate from the badge dropdown, so the
+     * 1.0.2 rules do not reach them. The official REL1_43 widget styles set a
+     * light @background-color-base on the sticky toolbar and unread rows,
+     * and a separate light read-row background. Keep Echo geometry, grouping,
+     * buttons, counters and images unchanged. Only adjust colors/states.
+     */
+    .mw-echo-ui-notificationsInboxWidget,
+    .mw-echo-ui-notificationsInboxWidget-main,
+    .mw-echo-ui-notificationsInboxWidget-main-toolbar,
+    .mw-echo-ui-notificationsInboxWidget-main-toolbar-top {
+        color: @td-text;
+    }
+    .mw-echo-ui-notificationsInboxWidget-toolbarWrapper {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+        box-shadow: 0 2px 0 @td-border;
+    }
+    .mw-echo-ui-notificationsInboxWidget-toolbarWrapper .oo-ui-labelElement-label,
+    .mw-echo-ui-notificationsInboxWidget-toolbarWrapper .oo-ui-buttonElement-button,
+    .mw-echo-ui-notificationsInboxWidget-toolbarWrapper .oo-ui-buttonOptionWidget {
+        color: @td-text;
+    }
+    .mw-echo-ui-notificationsInboxWidget-toolbarWrapper .oo-ui-buttonElement-framed.oo-ui-widget-enabled:not( .oo-ui-optionWidget-selected ) > .oo-ui-buttonElement-button {
+        background-color: @td-raised;
+        border-color: @td-border;
+        color: @td-text;
+    }
+    .mw-echo-ui-notificationsInboxWidget-toolbarWrapper .oo-ui-buttonElement-framed.oo-ui-widget-enabled:not( .oo-ui-optionWidget-selected ) > .oo-ui-buttonElement-button:hover {
+        background-color: @td-raised-hover;
+    }
+    /* Make the notification list and any no-JS fallback use dark surfaces. */
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationsListWidget,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-datedNotificationsWidget,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-state,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-notification {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget:not( .mw-echo-ui-notificationItemWidget-unread ) {
+        background-color: @td-surface;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-unread {
+        background-color: #29394d;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget:hover,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-unread:hover {
+        background-color: @td-raised-hover;
+    }
+    /* Echo's first-seen animation otherwise briefly flashes light blue. */
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-initiallyUnseen {
+        animation-name: timelessdarkmode-echo-seen;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-initiallyUnseen.mw-echo-ui-notificationItemWidget-unread {
+        animation-name: timelessdarkmode-echo-unread;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message-header,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message-header a,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message-header-wrapper,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message-body,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message em,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-title {
+        color: @td-text;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message-body,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message em,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-payload {
+        color: @td-muted;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-actions-timestamp,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-datedSubGroupListWidget-title-secondary,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-actions .oo-ui-labelElement-label,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-notification-footer {
+        color: @td-muted;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget .oo-ui-buttonElement-button,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-actions a,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-actions .oo-ui-labelElement-label {
+        color: @td-link;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message a,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget-content-message a:visited,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-notification a {
+        color: @td-link;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-notificationItemWidget:focus-visible {
+        outline: 2px solid @td-accent;
+        outline-offset: -2px;
+    }
+    /* Sidebar counters and date group titles remain legible. */
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-pageNotificationsOptionWidget,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-pageNotificationsOptionWidget-label-count,
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-datedSubGroupListWidget-title-primary {
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-notificationsInboxWidget .mw-echo-ui-pageNotificationsOptionWidget-label-count {
+        background-color: @td-raised;
+    }
+
+    /*
+     * 1.0.6: Echo empty-state placeholder ("There are no notifications").
+     * Echo REL1_43 gives .mw-echo-ui-placeholderItemWidget a light
+     * background (#eaecf0), independent of the normal notification rows.
+     * This element appears in Alerts/Notices dropdowns, and can also
+     * appear in the full inbox. Only change its palette, not its spacing.
+     */
+    .mw-echo-ui-placeholderItemWidget {
+        background-color: @td-raised;
+        color: @td-text;
+        border-color: @td-border;
+    }
+    .mw-echo-ui-placeholderItemWidget .oo-ui-labelElement-label {
+        color: @td-text;
+    }
+    .mw-echo-ui-placeholderItemWidget a,
+    .mw-echo-ui-placeholderItemWidget a:visited {
+        color: @td-link;
+    }
+
+    /* Basic Codex controls; component-specific behavior may need site testing. */
+    .cdx-text-input__input,
+    .cdx-select-vue__handle,
+    .cdx-menu,
+    .cdx-dialog__body,
+    .cdx-dialog__header,
+    .cdx-dialog__footer,
+    .cdx-popover {
+        color: @td-text;
+        background-color: @td-surface;
+        border-color: @td-border;
+    }
+
+    /*
+     * Beta 9: legible interface icons on dark Timeless.
+     *
+     * Timeless REL1_43 uses background-image SVGs on the ACTION LINKS
+     * themselves. Filtering the link would also recolor its text.
+     * Instead, retain the original SVG URL on the anchor (at zero size),
+     * render that same image on a ::before layer and filter only the layer.
+     * This keeps the original Timeless artwork, URLs and text intact.
+     * No hard-coded wiki base paths or copied icons are necessary.
+     */
+    .tools-inline li a {
+        position: relative;
+        background-size: 0 0;
+    }
+    .tools-inline li a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-size: 20px 20px;
+        filter: brightness( 0 ) invert( 1 );
+        pointer-events: none;
+    }
+
+    /* Section edit pencils: apply the same icon-only technique. */
+    .mw-editsection {
+        position: relative;
+        background-size: 0 0;
+    }
+    .mw-editsection::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 20px;
+        height: 20px;
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 20px 20px;
+        filter: brightness( 0 ) invert( 1 );
+        pointer-events: none;
+    }
+
+    /* Desktop user icon: leave the username's actual text untouched. */
+    #personal h2 {
+        position: relative;
+        background-size: 0 0;
+    }
+    #personal h2::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 9px;
+        width: 20px;
+        height: 20px;
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-size: 20px 20px;
+        filter: brightness( 0 ) invert( 1 );
+        pointer-events: none;
+    }
+
+    /* Compact/mobile flyout navigation icons only.  Do NOT include
+     * #user-tools h2: it also matches #personal h2 in the desktop header.
+     * The later generic ::before inset rule displaced the account icon.
+     * #personal h2 keeps its own exact position above. */
+    #site-navigation h2,
+    #site-tools h2 {
+        background-size: 0 0;
+    }
+    #site-navigation h2::before,
+    #site-tools h2::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 30px 30px;
+        filter: brightness( 0 ) invert( 1 );
+        pointer-events: none;
+    }
+
+    /*
+     * 1.0.1: Restore the original Timeless mobile account-menu placement.
+     *
+     * On mobile (<= 850px), Timeless places #user-tools h2 absolutely in
+     * the top navigation row. Our desktop icon-only rule above sets
+     * #personal h2 to position: relative, unintentionally overriding that
+     * mobile placement and pushing the user icon down behind the search bar.
+     *
+     * Reinstate the native positioning WITHOUT changing top/right/spacing.
+     * Center the 30px white icon over the native mobile 30px heading; keep
+     * the desktop's 20px icon and top: 9px positioning unchanged.
+     */
+    @media screen and ( max-width: 850px ) {
+        #personal h2 {
+            position: absolute;
+        }
+        #personal h2::before {
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background-size: 30px 30px;
+            background-position: center center;
+        }
+    }
+
+    /* Search, thumbnail magnify, and mobile menu icons are icon-only. */
+    #searchButton,
+    #mw-searchButton,
+    div.magnify a,
+    #ca-more span,
+    #ca-languages span {
+        filter: brightness( 0 ) invert( 1 );
+    }
+
+    /* Beta 13: Echo (Notifications) header icons.  The OOUI bell/tray SVG
+     * is the background-image on the badge LINK itself, not on ::before.
+     * Keep that background as the icon source but stop painting it there;
+     * paint the same URL on a separate, filterable icon-only ::before layer.
+     * This preserves Echo's ::after notification-number badge, its unread
+     * status colors and the original icon position/click target. */
+    #pt-notifications-alert .mw-echo-notifications-badge,
+    #pt-notifications-notice .mw-echo-notifications-badge {
+        background-size: 0 0;
+    }
+    #pt-notifications-alert .mw-echo-notifications-badge::before,
+    #pt-notifications-notice .mw-echo-notifications-badge::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        display: block;
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 20px 20px;
+        filter: brightness( 0 ) invert( 1 );
+        pointer-events: none;
+    }
+
+    /* OOUI icons and indicators, not their labels or containing buttons. */
+    .oo-ui-iconElement-icon,
+    .oo-ui-indicatorElement-indicator {
+        filter: brightness( 0 ) invert( 1 );
+    }
+    /* Codex icon SVGs are generally currentColor-based. */
+    .cdx-icon {
+        color: @td-text;
+    }
+
+    /*
+     * Beta 12: readable checkbox selection (native, OOUI and Codex).
+     *
+     * Beta 9 made general OOUI SVG icons white with a CSS filter. OOUI's
+     * checkbox checkIcon span is ALSO the box background, so filtering it
+     * turns the entire blue checked square white (white tick on white).
+     * Restore its original icon colors, then give the checked face a dark
+     * blue fill.  Do not use appearance:none, hide inputs, or change the
+     * native checkbox sizing/keyboard behavior.
+     */
+    input[type='checkbox'] {
+        accent-color: #36c;
+    }
+
+    /* OOUI's actual visible square is a span adjacent to the invisible input.
+     * Override the generic icon filter, which alters the entire checkbox. */
+    .oo-ui-checkboxInputWidget .oo-ui-checkboxInputWidget-checkIcon {
+        filter: none;
+    }
+    .oo-ui-checkboxInputWidget.oo-ui-widget-enabled input[type='checkbox']:checked + span,
+    .oo-ui-checkboxInputWidget.oo-ui-widget-enabled input[type='checkbox']:indeterminate + span {
+        background-color: #36c;
+        border-color: #36c;
+    }
+    .oo-ui-checkboxInputWidget.oo-ui-widget-enabled input[type='checkbox']:checked:hover + span,
+    .oo-ui-checkboxInputWidget.oo-ui-widget-enabled input[type='checkbox']:indeterminate:hover + span {
+        background-color: #3056a9;
+        border-color: #3056a9;
+    }
+    .oo-ui-checkboxInputWidget.oo-ui-widget-enabled input[type='checkbox']:focus-visible + span {
+        outline: 2px solid @td-accent;
+        outline-offset: 2px;
+    }
+
+    /* Codex checkbox and its CSS-drawn white checkmark. */
+    .cdx-checkbox .cdx-checkbox__input:enabled:checked + .cdx-checkbox__icon,
+    .cdx-checkbox .cdx-checkbox__input:enabled:indeterminate + .cdx-checkbox__icon {
+        background-color: #36c;
+        border-color: #36c;
+    }
+    .cdx-checkbox .cdx-checkbox__input:enabled:checked:hover + .cdx-checkbox__icon,
+    .cdx-checkbox .cdx-checkbox__input:enabled:indeterminate:hover + .cdx-checkbox__icon {
+        background-color: #3056a9;
+        border-color: #3056a9;
+    }
+    .cdx-checkbox .cdx-checkbox__input:enabled:checked:not(:indeterminate) + .cdx-checkbox__icon::before {
+        border-color: #fff;
+    }
+    .cdx-checkbox .cdx-checkbox__input:enabled:indeterminate + .cdx-checkbox__icon::before {
+        background-color: #fff;
+    }
+    .cdx-checkbox .cdx-checkbox__input:enabled:focus-visible + .cdx-checkbox__icon {
+        outline: 2px solid @td-accent;
+        outline-offset: 2px;
+    }
+
+    /* Legacy MediaWiki UI checkboxes occasionally use generated labels. */
+    .mw-ui-checkbox input[type='checkbox']:checked + label::before {
+        background-color: #36c;
+        border-color: #36c;
+    }
+
+    /*
+     * Beta 10: Page Previews (MediaWiki Popups extension, REL1_43).
+     * The preview's popup and inner clip-path container both have their own
+     * light backgrounds. The preview extract also uses a *white* fade in
+     * ::after. Override all three without touching thumbnail image pixels.
+     *
+     * Popups places the hover card inside body, outside #mw-content. Keep
+     * these selectors within the Timeless-only dark-mode mixin.
+     */
+    .mwe-popups,
+    .mwe-popups .mwe-popups-container {
+        background: @td-sidebar;
+        color: @td-text;
+    }
+    .mwe-popups {
+        box-shadow: 0 12px 36px rgba( 0, 0, 0, 0.48 ), 0 0 0 1px @td-border;
+        border-color: @td-border;
+    }
+    .mwe-popups .mwe-popups-extract,
+    .mwe-popups .mwe-popups-extract:visited,
+    .mwe-popups .mwe-popups-extract:hover,
+    .mwe-popups .mwe-popups-container footer {
+        color: @td-text;
+    }
+    .mwe-popups .mwe-popups-extract a,
+    .mwe-popups .mwe-popups-container footer a:not( .mwe-popups-settings-button ) {
+        color: @td-link;
+    }
+    .mwe-popups .mwe-popups-extract a:hover,
+    .mwe-popups .mwe-popups-container footer a:not( .mwe-popups-settings-button ):hover {
+        color: @td-link-hover;
+    }
+    /* The text-truncation fade must end on the same dark surface. */
+    .mwe-popups .mwe-popups-extract[ dir='ltr' ]::after {
+        background-image: linear-gradient( to right, transparent, @td-sidebar 50% );
+    }
+    .mwe-popups .mwe-popups-extract[ dir='rtl' ]::after {
+        background-image: linear-gradient( to left, transparent, @td-sidebar 50% );
+    }
+    /* Fallback pointer triangles when clip-path is unsupported. */
+    .mwe-popups:not( .flipped-y ):not( .flipped-x-y )::after {
+        border-bottom-color: @td-sidebar;
+    }
+    .mwe-popups.flipped-y::after,
+    .mwe-popups.flipped-x-y::after {
+        border-top-color: @td-sidebar;
+    }
+    .mwe-popups:not( .flipped-y ):not( .flipped-x-y )::before {
+        border-bottom-color: @td-border;
+    }
+    .mwe-popups.flipped-y::before,
+    .mwe-popups.flipped-x-y::before {
+        border-top-color: @td-border;
+    }
+    /* Keep only the cog icon light; don't invert the surrounding preview. */
+    .mwe-popups .mwe-popups-settings-icon,
+    .mwe-popups .mwe-popups-settings-button .mw-ui-icon,
+    .mwe-popups .mwe-popups-settings-button .oo-ui-iconElement-icon {
+        filter: brightness( 0 ) invert( 1 );
+    }
+    .mwe-popups .mwe-popups-settings-button:hover,
+    .mwe-popups .mwe-popups-settings-button:focus-visible {
+        background-color: @td-sidebar-hover;
+    }
+
+    /*
+     * Beta 11: Logos Reftagger Bible-verse tooltips.
+     *
+     * The externally loaded Reftagger script uses a .rtTooltip root and
+     * .rtContainer, .rtTooltipHeader, .rtTooltipBody and .rtTooltipFooter.
+     * Its own light/dark classes (.rtLight/.rtDark) can be loaded after our
+     * ResourceLoader module. Use narrowly scoped !important declarations
+     * for colors only to beat late-injected Reftagger rules and optional
+     * site-specific settings. Keep all popup geometry, interactions and
+     * reference/translation content controlled by Reftagger itself.
+     *
+     * These rules are nested under the Timeless-only color mixin, so they
+     * never apply to Light mode or to other MediaWiki skins. The tooltip
+     * can be mounted directly under body, outside #mw-content.
+     */
+    .rtTooltip,
+    .rtTooltip .rtContainer {
+        color: @td-text !important;
+        background-color: @td-sidebar !important;
+        border-color: @td-border !important;
+    }
+    .rtTooltip .rtContainer {
+        /* Preserve its shape/size while giving the popup a visible edge. */
+        box-shadow: 0 10px 30px rgba( 0, 0, 0, 0.48 ),
+            inset 0 0 0 1px @td-border !important;
+    }
+    .rtTooltip .rtTooltipHeader {
+        background: @td-surface !important;
+        color: @td-text !important;
+        border-color: @td-border !important;
+    }
+    .rtTooltip .rtTooltipBody,
+    .rtTooltip .rtTooltipFooter {
+        background-color: @td-sidebar !important;
+        color: @td-text !important;
+        border-color: @td-border !important;
+    }
+    .rtTooltip .rtTooltipBody .ch-ref,
+    .rtTooltip .rtTooltipBody .verse-ref {
+        color: @td-muted !important;
+    }
+    .rtTooltip a:link,
+    .rtTooltip a:visited,
+    .rtTooltip .rtTooltipFooter a:link,
+    .rtTooltip .rtTooltipFooter a:visited {
+        color: @td-link !important;
+    }
+    .rtTooltip a:hover,
+    .rtTooltip a:focus-visible,
+    .rtTooltip .rtTooltipFooter a:hover {
+        color: @td-link-hover !important;
+    }
+
+    /* Browser scrollbars, without affecting the content images. */
+    scrollbar-color: @td-border @td-bg;
+}
+
+/* Forced dark preference. */
+body.skin-timeless.timelessdarkmode-dark {
+    .timelessdarkmode-colors();
+}
+
+/* System-based mode; there is no JS or layout change. */
+@media screen and ( prefers-color-scheme: dark ) {
+    body.skin-timeless.timelessdarkmode-auto {
+        .timelessdarkmode-colors();
+    }
+}
+
+/* Dark-only animation names are assigned inside .timelessdarkmode-colors(). */
+@keyframes timelessdarkmode-echo-unread {
+    from { background-color: #354d69; }
+    to { background-color: #29394d; }
+}
+@keyframes timelessdarkmode-echo-seen {
+    from { background-color: #354d69; }
+    to { background-color: #252a31; }
+}

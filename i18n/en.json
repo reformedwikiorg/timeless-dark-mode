@@ -1,0 +1,13 @@
+{
+    "@metadata": {
+        "authors": [
+            "OpenAI"
+        ]
+    },
+    "timelessdarkmode-desc": "Adds light, dark, and automatic appearance options for the Timeless skin.",
+    "timelessdarkmode-pref-label": "Timeless color theme:",
+    "timelessdarkmode-pref-help": "Applies only when Timeless is your selected skin. Automatic uses your device's light/dark setting. Save preferences to apply.",
+    "timelessdarkmode-light": "Light (original Timeless)",
+    "timelessdarkmode-dark": "Dark",
+    "timelessdarkmode-auto": "Automatic (follow my device)"
+}
