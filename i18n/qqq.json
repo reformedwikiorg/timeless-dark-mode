@@ -1,0 +1,9 @@
+{
+    "@metadata": { "authors": [ "OpenAI" ] },
+    "timelessdarkmode-desc": "Description displayed on Special:Version.",
+    "timelessdarkmode-pref-label": "Label for theme dropdown on Special:Preferences (Appearance).",
+    "timelessdarkmode-pref-help": "Help text under Timeless theme selector.",
+    "timelessdarkmode-light": "Light theme option label.",
+    "timelessdarkmode-dark": "Dark theme option label.",
+    "timelessdarkmode-auto": "Use system color scheme theme option label."
+}
